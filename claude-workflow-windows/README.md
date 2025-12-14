@@ -21,51 +21,10 @@ Compared to the original package, this version removes:
 
 ## Quick Start
 
-### 🚀 Option 1: Interactive Setup Wizard (Recommended)
-
-**Let AI guide you through the setup process!**
-
-```bash
-# Run the interactive setup wizard
-cd C:\PolarCode\MultiAgentSetup\claude-workflow-windows
-interactive-setup.bat
-```
-
-The wizard will ask you:
-- 📁 Where to install (your project directory)
-- 🔑 Linear API key (if you want Linear integration)
-- 🔗 GitHub repository URL
-- 🌿 Default branch name
-
-Then it automatically sets everything up for you!
-
-**See:** [INTERACTIVE-SETUP-GUIDE.md](INTERACTIVE-SETUP-GUIDE.md) for detailed instructions.
-
----
-
-### ⚙️ Option 2: Manual Setup
-
-If you prefer to set up manually:
-
-#### 1. Copy to Your Project
-
-```bash
-# Copy the .claude folder to your project root
-cp -r claude-workflow-windows/.claude /path/to/your-project/
-```
-
-#### 2. Test Basic Functionality
-
-Open your project in Claude Code and try:
-```
-/research_codebase_nt what is the overall structure?
-```
-
-If that works, you're ready to go!
-
-#### 3. (Optional) Set Up Linear Integration
-
-If you use Linear for project management, follow the [Linear Setup Guide](#linear-integration-setup) below.
+**New User?** → [GETTING-STARTED.md](GETTING-STARTED.md)
+**Need Linear?** → [LINEAR-SETUP.md](LINEAR-SETUP.md)
+**Command Reference** → [COMMANDS.md](COMMANDS.md)
+**Customization** → [CUSTOMIZATION.md](CUSTOMIZATION.md)
 
 ---
 
@@ -180,67 +139,6 @@ Manage Linear tickets
 
 ---
 
-## Linear Integration Setup
-
-### Prerequisites
-
-1. **Install Linear MCP Server**
-   ```bash
-   npm install -g @modelcontextprotocol/server-linear
-   ```
-
-2. **Configure in Claude Code**
-   - Add Linear MCP server to your Claude Code configuration
-   - Provide your Linear API key
-
-### Customization Steps
-
-#### Step 1: Get Your Linear IDs
-
-In Claude Code, use these MCP tools:
-```
-mcp__linear__list_teams
-mcp__linear__list_projects
-mcp__linear__list_workflow_states
-mcp__linear__list_labels
-mcp__linear__list_users
-```
-
-Copy the UUIDs from the responses.
-
-#### Step 2: Update linear.md
-
-Edit `.claude/commands/linear.md` and replace ALL placeholder IDs:
-
-1. **Team ID** (line ~362)
-   - Replace `YOUR_TEAM_ID_HERE` with your team's UUID
-
-2. **Label IDs** (lines ~365-368)
-   - Replace with your label UUIDs
-   - Customize labels based on your project structure
-
-3. **Workflow State IDs** (lines ~370-380)
-   - Replace with your workflow state UUIDs
-   - Update to match YOUR actual workflow
-
-4. **User IDs** (lines ~383-385)
-   - Replace with your team members' UUIDs
-
-5. **GitHub URLs** (line ~59)
-   - Update to point to your org/repo
-
-6. **Workflow Description** (lines ~36-48)
-   - Update to match your team's actual workflow
-
-#### Step 3: Test Linear Integration
-
-```
-/linear
-```
-
-Should prompt you about what you want to do with Linear tickets.
-
----
 
 ## Directory Structure
 
@@ -268,53 +166,6 @@ Should prompt you about what you want to do with Linear tickets.
     └── ci_describe_pr.md
 ```
 
----
-
-## Usage Examples
-
-### Example 1: Researching a Feature
-
-```
-User: /research_codebase_nt how does authentication work?
-
-Claude: I'll research how authentication works in your codebase...
-[Spawns codebase-locator and codebase-analyzer agents in parallel]
-[Returns comprehensive analysis with file references]
-```
-
-### Example 2: Creating a Plan
-
-```
-User: /create_plan_nt
-
-Claude: I'll help you create an implementation plan. What are we building?
-
-User: Add OAuth2 support to the login flow
-
-Claude: [Asks clarifying questions, researches codebase, creates structured plan]
-```
-
-### Example 3: Making a Commit
-
-```
-User: /commit
-
-Claude: [Reviews changes, drafts commit message in repo style]
-Here's my proposed commit message:
-
-Add OAuth2 authentication support
-
-- Implement OAuth2 PKCE flow for secure authentication
-- Add token refresh mechanism
-- Update login UI with OAuth2 button
-
-🤖 Generated with Claude Code
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
-
-Should I proceed with this commit?
-```
-
----
 
 ## Customization
 
@@ -382,23 +233,6 @@ ls .claude/agents/
 winget install --id GitHub.cli
 ```
 
----
-
-## What About the "Thoughts Directory"?
-
-The original package used a "thoughts directory" for storing plans, tickets, and documentation. This required the HumanLayer CLI which isn't available on Windows.
-
-**This version uses `_nt` (no thoughts) command variants** which:
-- Don't require the thoughts directory
-- Can save plans anywhere you specify
-- Work exactly the same, just without the predefined structure
-
-**If you want structured documentation:**
-- Create your own `docs/` folder structure
-- Modify commands to save there
-- Or just save plans in your project's docs
-
----
 
 ## Differences from Original
 
@@ -448,21 +282,6 @@ Create `.claude/README.md` in your project:
 
 ---
 
-## Documentation
-
-### Complete Guides
-- **[COMMANDS.md](COMMANDS.md)** - Complete command reference with examples
-- **[CUSTOMIZATION.md](CUSTOMIZATION.md)** - How to customize commands, agents, and settings
-- **[INTERACTIVE-SETUP-GUIDE.md](INTERACTIVE-SETUP-GUIDE.md)** - Interactive setup wizard guide
-- **[LINEAR-CUSTOMIZATION-CHECKLIST.md](LINEAR-CUSTOMIZATION-CHECKLIST.md)** - Linear setup checklist
-- **[SETUP-OPTIONS-SUMMARY.md](SETUP-OPTIONS-SUMMARY.md)** - Setup options comparison
-- **[CLEANUP-GUIDE.md](CLEANUP-GUIDE.md)** - What to delete from original package
-
-### Quick References
-- **[QUICK-START.md](QUICK-START.md)** - 2-minute quick start
-- **[LINEAR-QUICK-SETUP.txt](LINEAR-QUICK-SETUP.txt)** - Linear setup quick reference
-
----
 
 ## Support
 
@@ -480,6 +299,17 @@ Create `.claude/README.md` in your project:
 
 ---
 
+## Cleanup: What to Delete
+
+You can safely delete the original `claude-workflow-package` folder:
+- All Windows-compatible features are in this package
+- Original contains macOS-only and HumanLayer-specific files
+- See `claude-workflow-windows_archive/` folder for documentation history
+
+The Windows edition includes everything you need: 11 commands, 6 agents, complete documentation, and Linear integration setup. The original package contains macOS-specific session orchestration and HumanLayer CLI dependencies that don't work on Windows.
+
+---
+
 ## Credits
 
 **Original Package:** Extracted from [HumanLayer](https://github.com/humanlayer/humanlayer) project
@@ -492,7 +322,7 @@ Create `.claude/README.md` in your project:
 
 ## Version
 
-**Windows Edition Version:** 1.0
+**Windows Edition Version:** 1.1 - Documentation Consolidated
 **Based On:** HumanLayer Claude Workflow Package (December 2024)
 **Last Updated:** 2025-12-14
 
