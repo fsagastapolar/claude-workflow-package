@@ -19,7 +19,8 @@
       "Bash(powershell -Command \"(Get-Content ''claude-workflow-windows\\GETTING-STARTED.md'' | Measure-Object -Line).Lines\")",
       "Bash(powershell -Command:*)",
       "Bash(findstr:*)",
-      "Bash(dir /B *.md)"
+      "Bash(dir /B *.md)",
+      "Bash(git rev-parse:*)"
     ]
   }
 }
