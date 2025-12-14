@@ -1,0 +1,92 @@
+═══════════════════════════════════════════════════════════════
+         LINEAR MCP SERVER - QUICK SETUP GUIDE
+═══════════════════════════════════════════════════════════════
+
+📋 YOUR SETUP (Already Configured!)
+═══════════════════════════════════════════════════════════════
+✓ API Key: lin_api_YOUR_LINEAR_API_KEY_HERE
+✓ Config File: LINEAR-MCP-CONFIG.json (ready to use)
+✓ Setup Script: setup-linear.bat (project-specific only!)
+✓ No context bloat in other projects!
+
+
+🚀 ONE-CLICK SETUP (30 seconds) - PROJECT-SPECIFIC
+═══════════════════════════════════════════════════════════════
+1. Navigate to your project: cd C:\path\to\your-project
+2. Copy .claude folder: cp -r path\to\claude-workflow-windows\.claude .
+3. Run: C:\PolarCode\MultiAgentSetup\claude-workflow-windows\setup-linear.bat
+4. Restart VS Code
+5. Test: mcp__linear__list_teams (only works in this project!)
+6. Done! ✓
+
+
+📝 GET YOUR LINEAR IDS (5 minutes)
+═══════════════════════════════════════════════════════════════
+After MCP server works, run these in Claude Code:
+
+  mcp__linear__list_teams              → Copy team UUID
+  mcp__linear__list_workflow_states    → Copy state UUIDs
+  mcp__linear__list_labels             → Copy label UUIDs
+  mcp__linear__list_users              → Copy user UUIDs
+
+
+🛠️ CUSTOMIZE LINEAR.MD (10 minutes)
+═══════════════════════════════════════════════════════════════
+Open: .claude\commands\linear.md
+
+Replace:
+  Line ~362: YOUR_TEAM_ID_HERE
+  Lines ~365-368: YOUR_LABEL_IDs
+  Lines ~373-378: YOUR_STATE_IDs
+  Lines ~383-385: YOUR_USER_IDs
+
+Use: LINEAR-CUSTOMIZATION-CHECKLIST.md for complete guide
+
+
+✅ TEST IT WORKS
+═══════════════════════════════════════════════════════════════
+In Claude Code, type:
+
+  /linear
+
+Should show:
+  "I can help you with Linear tickets. What would you like to do?"
+
+Success! ✓
+
+
+📚 DETAILED DOCS
+═══════════════════════════════════════════════════════════════
+  YOUR-LINEAR-SETUP-SUMMARY.md          ← Start here!
+  LINEAR-MCP-SETUP-INSTRUCTIONS.md      ← Detailed guide
+  LINEAR-CUSTOMIZATION-CHECKLIST.md     ← Customization steps
+
+
+🔒 SECURITY
+═══════════════════════════════════════════════════════════════
+⚠ Your API key is in:
+  - LINEAR-MCP-CONFIG.json
+  - C:\Users\sagas\.claude\mcp_config.json
+
+✓ Protected by .gitignore (won't commit to git)
+⚠ Keep these files secure!
+
+
+🆘 TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+Issue: "MCP tools not found"
+Fix: npm install -g @modelcontextprotocol/server-linear
+     Restart VS Code
+
+Issue: "Module not found"
+Fix: Edit LINEAR-MCP-CONFIG.json, change "command": "npx"
+     Copy to C:\Users\sagas\.claude\mcp_config.json
+
+Issue: "Invalid API key"
+Fix: Generate new key at https://linear.app/settings/api
+     Update in LINEAR-MCP-CONFIG.json
+
+
+═══════════════════════════════════════════════════════════════
+         READY TO GO! Run setup-linear.bat now!
+═══════════════════════════════════════════════════════════════

@@ -1,0 +1,9 @@
+# Linear API Key - DO NOT COMMIT
+LINEAR-MCP-CONFIG.json
+mcp_config.json
+
+# Project-specific MCP configuration (contains API key)
+.claude/mcp_config.json
+
+# User-specific customizations
+.claude/commands/linear.md.backup

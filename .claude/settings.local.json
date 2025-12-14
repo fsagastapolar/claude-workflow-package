@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(dir /B \"C:\\PolarCode\\MultiAgentSetup\\claude-workflow-package\\.claude\\commands\")",
+      "Bash(dir /B \"C:\\PolarCode\\MultiAgentSetup\\claude-workflow-windows\\.claude\\commands\")",
+      "Bash(git config:*)",
+      "Bash(gh auth status:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
