@@ -519,11 +519,8 @@ See [LINEAR-CUSTOMIZATION-CHECKLIST.md](LINEAR-CUSTOMIZATION-CHECKLIST.md) for d
 
 ### Documentation Files
 - **README.md** - Package overview
-- **QUICK-START.md** - 2-minute quick start
-- **SETUP-GUIDE.md** - Manual setup instructions
-- **INTERACTIVE-SETUP-GUIDE.md** - Interactive wizard guide
+- **CUSTOMIZATION.md** - How to customize commands and agents
 - **LINEAR-CUSTOMIZATION-CHECKLIST.md** - Linear setup steps
-- **SETUP-OPTIONS-SUMMARY.md** - Setup comparison
 
 ### Interactive Setup
 Run the interactive wizard for guided setup:
@@ -534,6 +531,6 @@ interactive-setup.bat
 
 ---
 
-**Document Version:** 1.0 - Windows Edition
+**Document Version:** 1.1
 **Last Updated:** 2025-12-14
 **Platform:** Windows-optimized (also works on macOS/Linux)

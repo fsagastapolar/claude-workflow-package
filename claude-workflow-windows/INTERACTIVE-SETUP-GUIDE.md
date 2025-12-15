@@ -402,9 +402,8 @@ mcp_config.json
 ## Manual Setup (Alternative)
 
 If you prefer to set up manually instead of using the wizard, see:
-- `SETUP-GUIDE.md` - Complete manual setup guide
-- `YOUR-LINEAR-SETUP-SUMMARY.md` - Linear-specific setup
-- `LINEAR-MCP-SETUP-INSTRUCTIONS.md` - Detailed Linear instructions
+- `LINEAR-SETUP.md` - Complete Linear integration guide
+- `README.md` - Package overview and quick reference
 
 ## Next Steps After Setup
 
@@ -429,12 +428,11 @@ If you prefer to set up manually instead of using the wizard, see:
 
 ### Documentation:
 - **This Guide** - Interactive setup instructions
-- `QUICK-START.md` - 2-minute quick start
+- `GETTING-STARTED.md` - Quick start guide
 - `README.md` - Complete package overview
-- `SETUP-GUIDE.md` - Manual setup guide
-- `LINEAR-CUSTOMIZATION-CHECKLIST.md` - Linear customization
-- `MCP-GLOBAL-VS-PROJECT.md` - Configuration details
-- `FINAL-SUMMARY.md` - Package summary
+- `LINEAR-SETUP.md` - Linear integration setup
+- `COMMANDS.md` - Command reference
+- `CUSTOMIZATION.md` - Customization guide
 
 ### Check Your Setup:
 - View setup summary: `cat SETUP-SUMMARY.txt` (in your project)

@@ -630,10 +630,7 @@ Before considering customization complete:
 ### Documentation Files
 - **README.md** - Package overview
 - **COMMANDS.md** - Command reference
-- **QUICK-START.md** - 2-minute quick start
-- **INTERACTIVE-SETUP-GUIDE.md** - Interactive setup wizard
 - **LINEAR-CUSTOMIZATION-CHECKLIST.md** - Linear setup steps
-- **SETUP-OPTIONS-SUMMARY.md** - Setup comparison
 
 ### Interactive Setup
 For guided setup, run:
@@ -644,6 +641,6 @@ interactive-setup.bat
 
 ---
 
-**Document Version:** 1.0 - Windows Edition
+**Document Version:** 1.1
 **Last Updated:** 2025-12-14
 **Platform:** Windows-optimized

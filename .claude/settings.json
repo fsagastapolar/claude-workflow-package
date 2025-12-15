@@ -1,10 +1,6 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(./hack/spec_metadata.sh)",
-      "Bash(hack/spec_metadata.sh)",
-      "Bash(bash hack/spec_metadata.sh)"
-    ]
+    "allow": []
   },
   "enableAllProjectMcpServers": false,
   "env": {

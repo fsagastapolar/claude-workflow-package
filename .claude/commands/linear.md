@@ -33,36 +33,31 @@ I'll help you create a Linear ticket from your thoughts document. Please provide
 
 Then wait for the user's input.
 
-## Team Workflow & Status Progression
+## Team Workflow & Status Progression (CUSTOMIZE THIS)
 
-The team follows a specific workflow to ensure alignment before code implementation:
+**IMPORTANT:** Update this section to match your team's actual workflow.
 
-1. **Triage** → All new tickets start here for initial review
-2. **Spec Needed** → More detail is needed - problem to solve and solution outline necessary
-3. **Research Needed** → Ticket requires investigation before plan can be written
-4. **Research in Progress** → Active research/investigation underway
-5. **Research in Review** → Research findings under review (optional step)
-6. **Ready for Plan** → Research complete, ticket needs an implementation plan
-7. **Plan in Progress** → Actively writing the implementation plan
-8. **Plan in Review** → Plan is written and under discussion
-9. **Ready for Dev** → Plan approved, ready for implementation
-10. **In Dev** → Active development
-11. **Code Review** → PR submitted
-12. **Done** → Completed
+Example workflow (customize based on your Linear workspace):
 
-**Key principle**: Review and alignment happen at the plan stage (not PR stage) to move faster and avoid rework.
+1. **Backlog** → Tickets waiting to be prioritized
+2. **Todo** → Ready to be worked on
+3. **In Progress** → Active development
+4. **In Review** → PR submitted for review
+5. **Done** → Completed
+
+Update the status progression logic in the "Updating Ticket Status" section below to match your workflow.
 
 ## Important Conventions
 
-### URL Mapping for Thoughts Documents
-When referencing thoughts documents, always provide GitHub links using the `links` parameter:
-- `thoughts/shared/...` → `https://github.com/humanlayer/thoughts/blob/main/repos/humanlayer/shared/...`
-- `thoughts/allison/...` → `https://github.com/humanlayer/thoughts/blob/main/repos/humanlayer/allison/...`
-- `thoughts/global/...` → `https://github.com/humanlayer/thoughts/blob/main/global/...`
+### URL Mapping for Documents (CUSTOMIZE THIS)
+When referencing documentation, always provide GitHub links using the `links` parameter:
+- `docs/...` → `https://github.com/YOUR_ORG/YOUR_REPO/blob/main/docs/...`
+- Customize these mappings based on your documentation structure
 
-### Default Values
-- **Status**: Always create new tickets in "Triage" status
-- **Project**: For new tickets, default to "M U L T I C L A U D E" (ID: f11c8d63-9120-4393-bfae-553da0b04fd8) unless told otherwise
+### Default Values (CUSTOMIZE THESE)
+- **Status**: Always create new tickets in "Triage" status (update the state ID below)
+- **Project**: For new tickets, ask the user which project or use your default project
+  - To find your project ID, use: `mcp__linear__list_projects`
 - **Priority**: Default to Medium (3) for most tasks, use best judgment or ask user
   - Urgent (1): Critical blockers, security issues
   - High (2): Important features with deadlines, major bugs
@@ -70,13 +65,11 @@ When referencing thoughts documents, always provide GitHub links using the `link
   - Low (4): Nice-to-haves, minor improvements
 - **Links**: Use the `links` parameter to attach URLs (not just markdown links in description)
 
-### Automatic Label Assignment
+### Automatic Label Assignment (CUSTOMIZE THIS)
 Automatically apply labels based on the ticket content:
-- **hld**: For tickets about the `hld/` directory (the daemon)
-- **wui**: For tickets about `humanlayer-wui/`
-- **meta**: For tickets about `hlyr` commands, thoughts tool, or `thoughts/` directory
-
-Note: meta is mutually exclusive with hld/wui. Tickets can have both hld and wui, but not meta with either.
+- Customize these based on your project's components/areas
+- Example: **frontend**, **backend**, **infrastructure**, **docs**, etc.
+- To find your label IDs, use: `mcp__linear__list_labels`
 
 ## Action-Specific Instructions
 
@@ -349,40 +342,39 @@ Avoid:
 
 Remember: The goal is to help a future reader (including yourself) quickly understand what matters about this update.
 
-## Commonly Used IDs
+## CUSTOMIZE: Your Linear Workspace IDs
 
-### Engineering Team
-- **Team ID**: `6b3b2115-efd4-4b83-8463-8160842d2c84`
+**IMPORTANT:** Replace all IDs below with your own workspace IDs.
 
-### Label IDs
-- **bug**: `ff23dde3-199b-421e-904c-4b9f9b3d452c`
-- **hld**: `d28453c8-e53e-4a06-bea9-b5bbfad5f88a`
-- **meta**: `7a5abaae-f343-4f52-98b0-7987048b0cfa`
-- **wui**: `996deb94-ba0f-4375-8b01-913e81477c4b`
+To get your IDs, use these MCP tools in Claude Code:
+- `mcp__linear__list_teams` - Get your team IDs
+- `mcp__linear__list_projects` - Get your project IDs
+- `mcp__linear__list_workflow_states` - Get your workflow state IDs
+- `mcp__linear__list_labels` - Get your label IDs
+- `mcp__linear__list_users` - Get your user IDs
 
-### Workflow State IDs
-- **Triage**: `77da144d-fe13-4c3a-a53a-cfebd06c0cbe` (type: triage)
-- **spec needed**: `274beb99-bff8-4d7b-85cf-04d18affbc82` (type: unstarted)
-- **research needed**: `d0b89672-8189-45d6-b705-50afd6c94a91` (type: unstarted)
-- **research in progress**: `c41c5a23-ce25-471f-b70a-eff1dca60ffd` (type: unstarted)
-- **research in review**: `1a9363a7-3fae-42ee-a6c8-1fc714656f09` (type: unstarted)
-- **ready for plan**: `995011dd-3e36-46e5-b776-5a4628d06cc8` (type: unstarted)
-- **plan in progress**: `a52b4793-d1b6-4e5d-be79-b2254185eed0` (type: started)
-- **plan in review**: `15f56065-41ea-4d9a-ab8c-ec8e1a811a7a` (type: started)
-- **ready for dev**: `c25bae2f-856a-4718-aaa8-b469b7822f58` (type: started)
-- **in dev**: `6be18699-18d7-496e-a7c9-37d2ddefe612` (type: started)
-- **code review**: `8ca7fda1-08d4-48fb-a0cf-954246ccbe66` (type: started)
-- **Ready for Deploy**: `a3ad0b54-17bf-4ad3-b1c1-2f56c1f2515a` (type: started)
-- **Done**: `8159f431-fbc7-495f-a861-1ba12040f672` (type: completed)
-- **Backlog**: `6cf6b25a-054a-469b-9845-9bd9ab39ad76` (type: backlog)
-- **PostIts**: `a57f2ab3-c6f8-44c7-a36b-896154729338` (type: backlog)
-- **Todo**: `ddf85246-3a7c-4141-a377-09069812bbc3` (type: unstarted)
-- **Duplicate**: `2bc0e829-9853-4f76-ad34-e8732f062da2` (type: canceled)
-- **Canceled**: `14a28d0d-c6aa-4d8e-9ff2-9801d4cc7de1` (type: canceled)
+### Your Team
+- **Team ID**: `YOUR_TEAM_ID_HERE`
 
+### Your Labels (customize based on your project)
+- **bug**: `YOUR_BUG_LABEL_ID`
+- **feature**: `YOUR_FEATURE_LABEL_ID`
+- **enhancement**: `YOUR_ENHANCEMENT_LABEL_ID`
+- Add more labels as needed...
 
-## Linear User IDs
+### Your Workflow State IDs
+Update these to match YOUR Linear workspace workflow:
 
-- allison: b157f9e4-8faf-4e7e-a598-dae6dec8a584
-- dex: 16765c85-2286-4c0f-ab49-0d4d79222ef5
-- sundeep: 0062104d-9351-44f5-b64c-d0b59acb516b
+- **Backlog**: `YOUR_BACKLOG_STATE_ID` (type: backlog)
+- **Todo**: `YOUR_TODO_STATE_ID` (type: unstarted)
+- **In Progress**: `YOUR_IN_PROGRESS_STATE_ID` (type: started)
+- **In Review**: `YOUR_IN_REVIEW_STATE_ID` (type: started)
+- **Done**: `YOUR_DONE_STATE_ID` (type: completed)
+- **Canceled**: `YOUR_CANCELED_STATE_ID` (type: canceled)
+
+Add any custom workflow states you use...
+
+### Your Linear User IDs
+- your_name: YOUR_USER_ID_HERE
+- teammate1: TEAMMATE1_ID_HERE
+- teammate2: TEAMMATE2_ID_HERE

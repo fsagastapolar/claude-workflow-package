@@ -9,7 +9,30 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(find:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(move claude-workflow-windowsQUICK-START.md claude-workflow-windows_archive )",
+      "Bash(move claude-workflow-windowsSETUP-GUIDE.md claude-workflow-windows_archive )",
+      "Bash(move claude-workflow-windowsINSTALLATION-SUMMARY.md claude-workflow-windows_archive )",
+      "Bash(move claude-workflow-windowsFINAL-SUMMARY.md claude-workflow-windows_archive )",
+      "Bash(move:*)",
+      "Bash(mv:*)",
+      "Bash(powershell -Command \"(Get-Content ''claude-workflow-windows\\GETTING-STARTED.md'' | Measure-Object -Line).Lines\")",
+      "Bash(powershell -Command:*)",
+      "Bash(findstr:*)",
+      "Bash(dir /B *.md)",
+      "Bash(git rev-parse:*)",
+      "Bash(dir /B /S \"c:\\PolarCode\\MultiAgentSetup\\claude-workflow-windows\\thoughts-template\")",
+      "Bash(mkdir:*)",
+      "Bash(tree:*)",
+      "Bash(dir /B /S c:PolarCodeMultiAgentSetupDEBUG-REPORT*.md)",
+      "Bash(dir:*)",
+      "Bash(gh --version:*)",
+      "Bash(where gh:*)",
+      "Bash(echo:*)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" --version)",
+      "Bash(\"/c/Program Files (x86)/GitHub CLI/gh.exe\" --version)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr view:*)"
     ]
   }
 }
