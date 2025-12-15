@@ -301,6 +301,454 @@ if /i "%USE_LINEAR%"=="y" (
 
 echo.
 
+REM ================================================================
+REM NEW SECTION: Automated GitHub CLI Installation
+REM ================================================================
+echo.
+echo ================================================================
+echo Installing GitHub CLI (gh)
+echo ================================================================
+echo.
+echo Checking if GitHub CLI is installed...
+gh --version >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ✓ GitHub CLI is already installed
+    gh --version
+) else (
+    echo GitHub CLI is NOT installed. Installing now...
+    echo.
+    echo Using winget to install GitHub CLI...
+    winget install --id GitHub.cli --silent --accept-package-agreements --accept-source-agreements
+
+    if %errorlevel% neq 0 (
+        echo.
+        echo ERROR: Failed to install GitHub CLI
+        echo Please install manually from: https://cli.github.com/
+        echo.
+        pause
+        exit /b 1
+    )
+
+    echo ✓ GitHub CLI installed successfully
+    echo.
+    echo IMPORTANT: You may need to restart your terminal for 'gh' to be available in PATH
+    echo.
+)
+
+REM Check authentication
+echo Checking GitHub CLI authentication...
+gh auth status >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ✓ GitHub CLI is authenticated
+) else (
+    echo.
+    echo GitHub CLI is installed but NOT authenticated.
+    echo.
+    echo Opening browser for authentication...
+    echo Please follow the prompts to authenticate with GitHub.
+    echo.
+    pause
+    gh auth login --web
+
+    if %errorlevel% neq 0 (
+        echo.
+        echo ERROR: GitHub authentication failed
+        echo You can authenticate later by running: gh auth login
+        echo.
+    ) else (
+        echo ✓ GitHub CLI authenticated successfully
+    )
+)
+echo.
+
+REM ================================================================
+REM NEW SECTION: Thoughts Directory Setup
+REM ================================================================
+echo.
+echo ================================================================
+echo Setting Up Thoughts Directory Structure
+echo ================================================================
+echo.
+echo The thoughts directory is required for HumanLayer workflow commands.
+echo This includes: /create_plan, /describe_pr, /create_handoff, etc.
+echo.
+
+REM Check if thoughts directory already exists
+if exist "%PROJECT_DIR%\thoughts" (
+    echo.
+    echo WARNING: thoughts directory already exists at %PROJECT_DIR%\thoughts
+    echo.
+    set /p "OVERWRITE_THOUGHTS=Overwrite existing thoughts directory? (y/n): "
+
+    if /i not "!OVERWRITE_THOUGHTS!"=="y" (
+        echo.
+        echo Keeping existing thoughts directory.
+        echo.
+    ) else (
+        echo.
+        echo Backing up existing thoughts to thoughts_backup_%date:~-4,4%%date:~-10,2%%date:~-7,2%_%time:~0,2%%time:~3,2%%time:~6,2%
+        move "%PROJECT_DIR%\thoughts" "%PROJECT_DIR%\thoughts_backup_%date:~-4,4%%date:~-10,2%%date:~-7,2%_%time:~0,2%%time:~3,2%%time:~6,2%" >nul
+
+        echo Copying thoughts template structure...
+        xcopy /E /I /Y "%~dp0thoughts-template" "%PROJECT_DIR%\thoughts"
+
+        if %errorlevel% neq 0 (
+            echo ERROR: Failed to copy thoughts template
+            pause
+            exit /b 1
+        )
+
+        echo ✓ Thoughts directory created from template
+    )
+) else (
+    echo Creating thoughts directory from template...
+    xcopy /E /I /Y "%~dp0thoughts-template" "%PROJECT_DIR%\thoughts"
+
+    if %errorlevel% neq 0 (
+        echo ERROR: Failed to copy thoughts template
+        pause
+        exit /b 1
+    )
+
+    echo ✓ Thoughts directory structure created
+)
+
+echo.
+echo Thoughts directory structure:
+echo   %PROJECT_DIR%\thoughts\
+echo   ├── shared\          # Team-wide documentation
+echo   │   ├── tickets\     # Ticket research
+echo   │   ├── plans\       # Implementation plans
+echo   │   ├── research\    # Research documents
+echo   │   ├── prs\         # PR descriptions
+echo   │   ├── handoffs\    # Work handoffs
+echo   │   └── pr_description.md  # PR template
+echo   ├── personal\        # Personal workspace
+echo   └── global\          # Organization-wide
+echo.
+
+REM ================================================================
+REM NEW SECTION: Git Configuration Files
+REM ================================================================
+echo.
+echo ================================================================
+echo Configuring Git Files
+echo ================================================================
+echo.
+
+REM Create .gitattributes for line-ending consistency
+echo Creating .gitattributes for line-ending consistency...
+(
+    echo # Git Attributes - Line Ending Configuration
+    echo # This prevents line-ending issues across Windows/Linux/Mac
+    echo.
+    echo # Auto detect text files and normalize line endings to LF in repository
+    echo * text=auto
+    echo.
+    echo # Force LF for specific text file types
+    echo *.md text eol=lf
+    echo *.json text eol=lf
+    echo *.js text eol=lf
+    echo *.ts text eol=lf
+    echo *.tsx text eol=lf
+    echo *.jsx text eol=lf
+    echo *.yml text eol=lf
+    echo *.yaml text eol=lf
+    echo *.sh text eol=lf
+    echo.
+    echo # Windows batch files need CRLF
+    echo *.bat text eol=crlf
+    echo *.cmd text eol=crlf
+    echo.
+    echo # Binary files
+    echo *.png binary
+    echo *.jpg binary
+    echo *.gif binary
+    echo *.ico binary
+    echo *.pdf binary
+) > "%PROJECT_DIR%\.gitattributes"
+
+echo ✓ .gitattributes created
+
+REM Update .gitignore with thoughts and MCP config protection
+echo.
+echo Updating .gitignore to protect sensitive files...
+
+REM Check if .gitignore exists
+if not exist "%PROJECT_DIR%\.gitignore" (
+    echo Creating new .gitignore...
+    (
+        echo # Node.js
+        echo node_modules/
+        echo npm-debug.log*
+        echo.
+    ) > "%PROJECT_DIR%\.gitignore"
+)
+
+REM Append thoughts and MCP config protection
+echo. >> "%PROJECT_DIR%\.gitignore"
+echo # HumanLayer Thoughts Directory >> "%PROJECT_DIR%\.gitignore"
+echo # Add this if you want to keep thoughts private >> "%PROJECT_DIR%\.gitignore"
+echo # thoughts/ >> "%PROJECT_DIR%\.gitignore"
+echo. >> "%PROJECT_DIR%\.gitignore"
+echo # Claude Code Configuration >> "%PROJECT_DIR%\.gitignore"
+echo # Protect API keys and sensitive configuration >> "%PROJECT_DIR%\.gitignore"
+echo .claude/mcp_config.json >> "%PROJECT_DIR%\.gitignore"
+echo .claude/settings.local.json >> "%PROJECT_DIR%\.gitignore"
+echo. >> "%PROJECT_DIR%\.gitignore"
+echo # Temporary files >> "%PROJECT_DIR%\.gitignore"
+echo *.tmp >> "%PROJECT_DIR%\.gitignore"
+echo *.log >> "%PROJECT_DIR%\.gitignore"
+echo .DS_Store >> "%PROJECT_DIR%\.gitignore"
+echo Thumbs.db >> "%PROJECT_DIR%\.gitignore"
+
+echo ✓ .gitignore updated with protection rules
+echo.
+
+REM ================================================================
+REM NEW SECTION: Automated Validation Tests
+REM ================================================================
+echo.
+echo ================================================================
+echo Running Automated Validation Tests
+echo ================================================================
+echo.
+echo This will verify your environment is properly configured.
+echo.
+
+set "TEST_PASSED=0"
+set "TEST_FAILED=0"
+
+REM Test 1: Git installed
+echo [Test 1/8] Git installation...
+git --version >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ✓ PASS: Git is installed
+    set /a TEST_PASSED+=1
+) else (
+    echo ✗ FAIL: Git is NOT installed
+    set /a TEST_FAILED+=1
+)
+
+REM Test 2: GitHub CLI installed
+echo [Test 2/8] GitHub CLI installation...
+gh --version >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ✓ PASS: GitHub CLI is installed
+    set /a TEST_PASSED+=1
+) else (
+    echo ✗ FAIL: GitHub CLI is NOT installed
+    set /a TEST_FAILED+=1
+)
+
+REM Test 3: GitHub CLI authenticated
+echo [Test 3/8] GitHub CLI authentication...
+gh auth status >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ✓ PASS: GitHub CLI is authenticated
+    set /a TEST_PASSED+=1
+) else (
+    echo ✗ FAIL: GitHub CLI is NOT authenticated
+    set /a TEST_FAILED+=1
+)
+
+REM Test 4: Thoughts directory structure
+echo [Test 4/8] Thoughts directory structure...
+if exist "%PROJECT_DIR%\thoughts\shared\pr_description.md" (
+    echo ✓ PASS: Thoughts directory structure is complete
+    set /a TEST_PASSED+=1
+) else (
+    echo ✗ FAIL: Thoughts directory structure is incomplete
+    set /a TEST_FAILED+=1
+)
+
+REM Test 5: .gitattributes exists
+echo [Test 5/8] Git attributes configuration...
+if exist "%PROJECT_DIR%\.gitattributes" (
+    echo ✓ PASS: .gitattributes file exists
+    set /a TEST_PASSED+=1
+) else (
+    echo ✗ FAIL: .gitattributes file missing
+    set /a TEST_FAILED+=1
+)
+
+REM Test 6: .gitignore protects sensitive files
+echo [Test 6/8] Git ignore protection...
+findstr /C:".claude/mcp_config.json" "%PROJECT_DIR%\.gitignore" >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ✓ PASS: .gitignore protects sensitive files
+    set /a TEST_PASSED+=1
+) else (
+    echo ✗ FAIL: .gitignore doesn't protect MCP config
+    set /a TEST_FAILED+=1
+)
+
+REM Test 7: .claude folder exists
+echo [Test 7/8] Claude configuration...
+if exist "%PROJECT_DIR%\.claude\commands" (
+    echo ✓ PASS: .claude configuration exists
+    set /a TEST_PASSED+=1
+) else (
+    echo ✗ FAIL: .claude configuration missing
+    set /a TEST_FAILED+=1
+)
+
+REM Test 8: Node.js (if Linear was configured)
+if /i "%USE_LINEAR%"=="y" (
+    echo [Test 8/8] Node.js installation (for Linear MCP)...
+    node --version >nul 2>&1
+    if %errorlevel% equ 0 (
+        echo ✓ PASS: Node.js is installed
+        set /a TEST_PASSED+=1
+    ) else (
+        echo ✗ FAIL: Node.js is NOT installed
+        set /a TEST_FAILED+=1
+    )
+) else (
+    echo [Test 8/8] Node.js check... SKIPPED (Linear not configured)
+    set /a TEST_PASSED+=1
+)
+
+echo.
+echo ================================================================
+echo Test Results: %TEST_PASSED% passed, %TEST_FAILED% failed
+echo ================================================================
+echo.
+
+if %TEST_FAILED% gtr 0 (
+    echo ⚠ WARNING: Some tests failed. Please review the output above.
+    echo.
+    echo You can re-run this script or manually fix the issues.
+    echo See TROUBLESHOOTING.md for help.
+    echo.
+) else (
+    echo ✓ All tests passed! Your environment is ready.
+    echo.
+)
+
+REM ================================================================
+REM NEW SECTION: Optional PR Creation Test
+REM ================================================================
+echo.
+echo ================================================================
+echo Optional: Test PR Creation Workflow
+echo ================================================================
+echo.
+echo Would you like to test the full PR creation workflow?
+echo This will:
+echo   1. Create a test branch
+echo   2. Make a test commit
+echo   3. Push to GitHub
+echo   4. Create a test PR
+echo   5. Close and delete the test PR/branch
+echo.
+echo NOTE: This requires write access to the repository.
+echo.
+set /p "RUN_PR_TEST=Run PR creation test? (y/n): "
+
+if /i "%RUN_PR_TEST%"=="y" (
+    echo.
+    echo Starting PR creation test...
+    echo.
+
+    REM Change to project directory
+    cd /d "%PROJECT_DIR%"
+
+    REM Store current branch
+    for /f "tokens=*" %%i in ('git rev-parse --abbrev-ref HEAD 2^>nul') do set "CURRENT_BRANCH=%%i"
+    echo Current branch: %CURRENT_BRANCH%
+
+    REM Create test branch
+    set "TEST_BRANCH=test-setup-%RANDOM%"
+    echo Creating test branch: %TEST_BRANCH%
+    git checkout -b %TEST_BRANCH% >nul 2>&1
+
+    if %errorlevel% neq 0 (
+        echo ✗ Failed to create test branch
+        goto :SKIP_PR_TEST
+    )
+
+    REM Create test file
+    echo Test file created by setup validation > test-setup-validation.txt
+    git add test-setup-validation.txt
+
+    REM Create test commit
+    git commit -m "test: Setup validation test commit" >nul 2>&1
+
+    if %errorlevel% neq 0 (
+        echo ✗ Failed to create test commit
+        goto :CLEANUP_TEST
+    )
+
+    echo ✓ Test commit created
+
+    REM Push test branch
+    echo Pushing test branch to remote...
+    git push -u origin %TEST_BRANCH% >nul 2>&1
+
+    if %errorlevel% neq 0 (
+        echo ✗ Failed to push test branch
+        echo This might be a permissions issue or remote not configured
+        goto :CLEANUP_TEST
+    )
+
+    echo ✓ Test branch pushed
+
+    REM Create test PR
+    echo Creating test PR...
+    gh pr create --title "TEST: Setup validation" --body "This is an automated test PR created during setup validation. It will be closed automatically." >nul 2>&1
+
+    if %errorlevel% neq 0 (
+        echo ✗ Failed to create test PR
+        goto :CLEANUP_TEST
+    )
+
+    echo ✓ Test PR created successfully
+
+    REM Get PR number
+    for /f "tokens=*" %%i in ('gh pr view --json number --jq .number 2^>nul') do set "TEST_PR_NUMBER=%%i"
+
+    if not "%TEST_PR_NUMBER%"=="" (
+        echo Test PR number: #%TEST_PR_NUMBER%
+
+        REM Close the test PR
+        echo Closing test PR...
+        gh pr close %TEST_PR_NUMBER% >nul 2>&1
+        echo ✓ Test PR closed
+    )
+
+    :CLEANUP_TEST
+    REM Switch back to original branch
+    echo Cleaning up test branch...
+    git checkout %CURRENT_BRANCH% >nul 2>&1
+
+    REM Delete local test branch
+    git branch -D %TEST_BRANCH% >nul 2>&1
+
+    REM Delete remote test branch
+    git push origin --delete %TEST_BRANCH% >nul 2>&1
+
+    REM Delete test file if it exists
+    if exist "test-setup-validation.txt" (
+        del test-setup-validation.txt
+    )
+
+    echo ✓ Test branch cleaned up
+    echo.
+    echo ================================================================
+    echo PR Creation Test Complete
+    echo ================================================================
+    echo.
+    echo ✓ Your environment is fully functional for PR workflows!
+    echo.
+) else (
+    :SKIP_PR_TEST
+    echo.
+    echo Skipping PR creation test.
+    echo You can test manually later with: /describe_pr_nt
+    echo.
+)
+
 REM Step 6: Create setup summary file
 echo [6/6] Creating setup summary...
 

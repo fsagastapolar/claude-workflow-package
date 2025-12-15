@@ -2,6 +2,35 @@
 
 A Windows-compatible version of the Claude Code workflow system, cleaned up and customized for use without macOS-specific features or HumanLayer CLI dependencies.
 
+## ⚠️ Prerequisites
+
+Before using this workflow package, you need:
+
+### Required
+- **Git** - Version control ([Download](https://git-scm.com/download/win))
+- **GitHub CLI (`gh`)** - For PR creation and management ([Download](https://cli.github.com/))
+  - Run `gh auth login` after installation
+- **VS Code** - With Claude Code extension
+- **Thoughts Directory** - HumanLayer workflow structure (created by setup script)
+
+### Optional
+- **Node.js** - Only if using Linear integration ([Download](https://nodejs.org/))
+- **Linear API Key** - For Linear ticket management ([Get API Key](https://linear.app/settings/api))
+
+### Quick Check
+
+Run these commands to verify:
+```bash
+git --version        # Should show Git version
+gh --version         # Should show GitHub CLI version
+gh auth status       # Should show "Logged in to github.com"
+node --version       # Should show Node version (if using Linear)
+```
+
+If any are missing, run the setup script: `interactive-setup.bat`
+
+---
+
 ## What's Included
 
 This streamlined Windows version contains:

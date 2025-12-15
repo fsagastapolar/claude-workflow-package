@@ -20,7 +20,11 @@
       "Bash(powershell -Command:*)",
       "Bash(findstr:*)",
       "Bash(dir /B *.md)",
-      "Bash(git rev-parse:*)"
+      "Bash(git rev-parse:*)",
+      "Bash(dir /B /S \"c:\\PolarCode\\MultiAgentSetup\\claude-workflow-windows\\thoughts-template\")",
+      "Bash(mkdir:*)",
+      "Bash(tree:*)",
+      "Bash(dir /B /S c:PolarCodeMultiAgentSetupDEBUG-REPORT*.md)"
     ]
   }
 }

@@ -257,3 +257,58 @@ You now have everything you need. Try your first command:
 ```
 
 **Happy coding with Claude on Windows!** 🚀
+
+---
+
+## 🔍 Validate Your Setup
+
+After running the setup, validate everything works:
+
+### 1. Check Dependencies
+
+```bash
+# Git
+git --version
+
+# GitHub CLI
+gh --version
+gh auth status
+
+# Thoughts directory
+dir thoughts\shared\pr_description.md
+
+# Node.js (if using Linear)
+node --version
+```
+
+### 2. Test Basic Commands
+
+```bash
+# Test research command (no dependencies)
+/research_codebase_nt
+
+# Test planning command (requires thoughts)
+/create_plan_nt
+
+# Test PR description (requires gh and thoughts)
+/describe_pr_nt
+```
+
+### 3. Validation Checklist
+
+- [ ] Git installed and configured
+- [ ] GitHub CLI installed and authenticated
+- [ ] Thoughts directory exists with all subdirectories
+- [ ] `.gitattributes` exists (prevents line-ending issues)
+- [ ] `.gitignore` protects `.claude/mcp_config.json`
+- [ ] Can create a test branch and PR
+- [ ] Linear MCP configured (if using Linear)
+
+### 4. Troubleshooting
+
+If anything fails, see [TROUBLESHOOTING.md](../TROUBLESHOOTING.md) for solutions.
+
+Common fixes:
+- **"gh: command not found"** → Re-run `interactive-setup.bat`
+- **"thoughts/shared/pr_description.md not found"** → Copy template: `xcopy /E /I claude-workflow-windows\thoughts-template thoughts`
+- **Line-ending issues** → Create `.gitattributes` file
